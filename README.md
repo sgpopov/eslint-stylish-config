@@ -8,7 +8,7 @@ Install with [npm](https://npmjs.org/package/eslint-stylish-config): `npm i --sa
 
 Use it with:
 
-#### JSHint CLI
+#### ESLint CLI
 
 ```
 eslint --format node_modules/eslint-stylish-config/stylish.js file.js
