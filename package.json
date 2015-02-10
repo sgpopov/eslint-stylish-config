@@ -1,0 +1,50 @@
+{
+  "name": "eslint-stylish-config",
+  "version": "1.0.0",
+  "description": "Stylish reporter for ESLint with styling options",
+  "keywords": [
+    "eslint",
+    "reporter",
+    "lint",
+    "validate",
+    "stylish",
+    "elegant",
+    "colors",
+    "config"
+  ],
+  "homepage": "https://github.com/svil4ok/eslint-stylish-config",
+  "bugs": {
+    "url": "https://github.com/svil4ok/eslint-stylish-config/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Svilen Popov",
+    "email": "svil4ok@gmail.com",
+    "url": "https://twitter.com/sgpopov"
+  },
+  "files": [
+    "index.js",
+    "stylish.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/svil4ok/eslint-stylish-config.git"
+  },
+  "scripts": {
+    "test": "mocha stylish.spec.js"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "dependencies": {
+    "chalk": "^0.5.1",
+    "text-table": "^0.2.0",
+    "util-extend": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "eslint": "^0.14.1",
+    "mocha": "^2.1.0"
+  },
+  "main": "index.js"
+}
