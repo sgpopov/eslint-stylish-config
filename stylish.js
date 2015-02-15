@@ -1,11 +1,10 @@
 'use strict';
 
-var
-  chalk = require('chalk'),
-  table = require('text-table'),
-  extend = require('util-extend'),
-  fs = require('fs'),
-  path = require('path');
+var extend = require('util-extend');
+var table = require('text-table');
+var chalk = require('chalk');
+var path = require('path');
+var fs = require('fs');
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -26,29 +25,31 @@ function pluralize(word, count) {
 //------------------------------------------------------------------------------
 
 module.exports = function (results) {
-  var
-    output = '\n',
-    summary = '',
-    total = 0,
-    errors = 0,
-    warnings = 0,
-    colors = {};
+  var output = '\n';
+  var warnings = 0;
+  var summary = '';
+  var settings = {};
+  var errors = 0;
+  var total = 0;
 
-  if (fs.existsSync(path.resolve('.stylishcolors'))) {
-    var rc = fs.readFileSync('.stylishcolors', { encoding: 'utf8' });
-    colors = JSON.parse(rc);
+  if (fs.existsSync(path.resolve('.stylishconfig'))) {
+    var rc = fs.readFileSync('.stylishconfig', { encoding: 'utf8' });
+    settings = JSON.parse(rc);
   }
 
-  colors = extend({
-    'path': 'gray',
-    'position': 'gray',
-    'warning': 'yellow',
-    'error': 'red',
-    'description': 'gray',
-    'rule': 'gray',
-    'summary': 'yellow',
-    'noproblem': 'green'
-  }, colors);
+  settings = extend({
+    'positionFormat': 'colon',
+    'colors': {
+      'path': 'gray',
+      'position': 'gray',
+      'warning': 'yellow',
+      'error': 'red',
+      'description': 'gray',
+      'rule': 'gray',
+      'summary': 'yellow',
+      'noproblem': 'green'
+    }
+  }, settings);
 
   results.forEach(function (result) {
     var messages = result.messages;
@@ -58,18 +59,18 @@ module.exports = function (results) {
     }
 
     total += messages.length;
-    output += chalk.underline(chalk[colors.path](result.filePath)) + '\n';
+    output += chalk.underline(chalk[settings.colors.path](result.filePath)) + '\n';
     output += table(
       messages.map(function (message) {
         var messageType;
 
         if (message.fatal || message.severity === 2) {
-          messageType = chalk[colors.error]('error');
-          errors++;
+          messageType = chalk[settings.colors.error]('error');
+          errors += 1;
         }
         else {
-          messageType = chalk[colors.warning]('warning');
-          warnings++;
+          messageType = chalk[settings.colors.warning]('warning');
+          warnings += 1;
         }
 
         return [
@@ -77,8 +78,8 @@ module.exports = function (results) {
           message.line || 0,
           message.column || 0,
           messageType,
-          chalk[colors.description](message.message.replace(/\.$/, '')),
-          chalk[colors.rule](message.ruleId || '')
+          chalk[settings.colors.description](message.message.replace(/\.$/, '')),
+          chalk[settings.colors.rule](message.ruleId || '')
         ];
       }),
       {
@@ -88,9 +89,17 @@ module.exports = function (results) {
         }
       }
     )
-    .split('\n').map(function (el) {
+    .split('\n')
+    .map(function (el) {
       return el.replace(/(\d+)\s+(\d+)/, function (m, p1, p2) {
-        return chalk[colors.position](p1 + ':' + p2);
+        if (settings.positionFormat === 'line-col-comma') {
+          return chalk[settings.colors.position]('line ' + p1 + ', col ' + p2);
+        }
+        else if (settings.positionFormat === 'line-col-space') {
+          return chalk[settings.colors.position]('line ' + p1 + '  col ' + p2);
+        }
+
+        return chalk[settings.colors.position](p1 + ':' + p2);
       });
     })
     .join('\n') + '\n\n';
@@ -104,12 +113,12 @@ module.exports = function (results) {
     ].join('');
 
     if (errors > 0) {
-      output += chalk[colors.error].bold(summary);
+      output += chalk[settings.colors.error].bold(summary);
     }
     else {
-      output += chalk[colors.summary].bold(summary);
+      output += chalk[settings.colors.summary].bold(summary);
     }
   }
 
-  return total > 0 ? output : chalk[colors.noproblem].bold('\u2714 No problems');
+  return total > 0 ? output : chalk[settings.colors.noproblem].bold('\u2714 No problems');
 };

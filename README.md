@@ -34,58 +34,53 @@ grunt.initConfig({
 grunt.registerTask('default', ['eslint']);
 ```
 
-## Configuring colors
+## Configuration
 
-In this ex edition you can put an optional `.stylishcolors`-file in the root of your project to modify the output style of the reporter.
+In this ex edition you can put an optional `.stylishconfig`-file in the root of your project to modify the output style of the reporter.
 
 ```js
 {
-  "path"        : "bold",
-  "position"    : "magenta",
-  "warning"     : "yellow",
-  "error"       : "red",
-  "description" : "gray",
-  "rule"        : "cyan",
-  "summary"     : "gray",
-  "noproblem"   : "green"
+  "positionFormat": "line-col-space",
+  "colors": { 
+    "path": "bold",
+    "position": "magenta",
+    "warning": "yellow",
+    "error": "red",
+    "description": "dim",
+    "rule": "cyan",
+    "summary": "gray",
+    "noproblem": "green"
+  }
 }
 ```
 
-You can set one of the available styling options that [chalk](https://github.com/sindresorhus/chalk) supports:
+### `positionFormat`
 
-### Modifiers
+* **Options:** `colon`, `line-col-space`, `line-col-comma`
+* **Default:** `colon`
 
-- `reset`
-- `bold`
-- `dim`
-- `italic` *(not widely supported)*
-- `underline`
-- `inverse`
-- `hidden`
-- `strikethrough` *(not widely supported)*
+> when `colon`
 
-### Colors
+![positionFormat colon](img/position-format-colon.png)
 
-- `black`
-- `red`
-- `green`
-- `yellow`
-- `blue` *(on Windows the bright version is used as normal blue is illegible)*
-- `magenta`
-- `cyan`
-- `white`
-- `gray`
+> when `line-col-space`
 
-### Background colors
+![positionFormat line-col-space](img/position-format-line-col-space.png)
 
-- `bgBlack`
-- `bgRed`
-- `bgGreen`
-- `bgYellow`
-- `bgBlue`
-- `bgMagenta`
-- `bgCyan`
-- `bgWhite`
+> when `line-col-comma`
+
+![positionFormat line-col-comma](img/position-format-line-col-comma.png)
+
+### `colors`
+
+
+For the colors you can set one of the available styling options that [chalk](https://github.com/sindresorhus/chalk) supports:
+
+| Style             | Options                            |
+|------------------ | ---------------------------------- |
+| modifiers | `reset`, `bold`, `dim`, `italic` *(not widely supported)*, `underline`, `inverse`, `hidden`, `strikethrough` |
+| colors | `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `gray` |
+| background colors | `bgBlack` , `bgRed`, `bgGreen`, `bgYellow`, `bgBlue`, `bgMagenta`, `bgCyan`, `bgWhite`
 
 ## Example
 
