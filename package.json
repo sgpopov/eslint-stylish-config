@@ -1,6 +1,6 @@
 {
   "name": "eslint-stylish-config",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Stylish reporter for ESLint with styling options",
   "keywords": [
     "eslint",
