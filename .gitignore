@@ -1,2 +1,10 @@
 .DS_Store
+
+# Node.js
+logs
+*.log
 node_modules
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
